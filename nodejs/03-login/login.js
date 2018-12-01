@@ -18,62 +18,40 @@ var datastring = alldata.toString();
 var obj = querystring.parse(datastring);
 
 
+app.get('/sign',function(req,res){
+            res.send('sign');
+        });
+
+
 var server = http.createServer(function(req,res){
-    let alldata = '';
+    alldata = '';
     req.on('data',function(chunk){
         alldata+=chunk;
     })
-    req.on('end',function(){
-        let datastring = alldata.toString();
-        let obj = querystring.parse(datastring);
-        console.log(obj.user);
-        console.log(obj.pw);
-
-
-
-        res.end();
-        
-        // connection.connect();
 
         var addsql = 'INSERT INTO login(user,password) VALUES(?,?)';
         var addsqlParams = [obj.user,obj.pw];
-    
+        
         connection.query(addsql,addsqlParams,function (err,result){
         if(err){
             console.log('[INSERT ERROR] - ',err.message);
             return;
-           }        
-         
-          console.log('INSERT ID:',result);   
-        //   connection.end();     
-  
+        }        
+            
+        console.log('INSERT ID:',result);   
+            
+    
         });
-        
 
 
-
+    req.on('end',function(){
+        datastring = alldata.toString();
+        obj = querystring.parse(datastring);
+        console.log(obj.user);
+        console.log(obj.pw);
+        res.end();
     })
 })
-
-        // connection.connect();
-
-        // var addsql = 'INSERT INTO login(user,password) VALUES(?,?)';
-        // var addsqlParams = [obj.user,obj.pw];
-    
-        // connection.query(addsql,addsqlParams,function (err,result){
-        // if(err){
-        //     console.log('[INSERT ERROR] - ',err.message);
-        //     return;
-        //    }        
-         
-        //   console.log('INSERT ID:',result);   
-        //   connection.end();     
-  
-        // });
-
-// app.get('/',function(req,res){
-//     res.send('new home page!');
-// });
 
 
 console.log('listening 3000')
