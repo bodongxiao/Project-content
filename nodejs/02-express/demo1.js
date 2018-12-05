@@ -64,10 +64,10 @@ app.post('/',urlencodedParser,function(req,res){
     res.send(req.body.name);
 });
 
-// app.post('/upload',upload.single('logo'),function(req,res){
-//     console.dir(req.file);
-//     res.send({'ret_code':0});
-// });
+app.post('/upload',upload.single('logo'),function(req,res){
+    console.dir(req.file);
+    res.send({'ret_code':0});
+});
 
 app.post('/upload',jsonParser,function(req,res){
     console.dir(req.body);
